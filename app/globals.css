@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header {
+  background-color: #a4c991; /* Set your desired background color */
+  padding: 10px 20px; /* Add padding for spacing */
+  color: white; /* Text color */
+  display: flex; /* Align items horizontally */
+  justify-content: space-between; /* Distribute items evenly */
+  align-items: center; /* Vertically center items */
+}
+
+/* Optional: Style your logo */
+.logo {
+  /* Add styles for your logo image */
+}
+
+/* Optional: Style your navigation links */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 4rem; /* Adjust spacing between links */
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;
+  /* Add any other link styles you need */
+}
+
+/* Example: Hover effect for navigation links */
+nav a:hover {
+  color: #ddd; /* Change color on hover */
+}
