@@ -1,67 +1,89 @@
 "use client"
 import React, { useState } from 'react';
 
-const page = () => {
+const Page = () => {
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [mainTask, setMainTask] = useState([]);
 
- const [title, settitle] = useState("")
- const [desc, setdesc] = useState("")
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setMainTask([...mainTask, { title, desc }]);
+    setTitle("");
+    setDesc("");
+  }
 
- const [mainTask, setmainTask] = useState([])
- const submitHandler =(e)=>{
-  e.preventDefault();
-  setmainTask([...mainTask,{title,desc}]);
-  settitle("");
-  setdesc("");
- }
+  const deleteHandler = (i) => {
+    let copyTask = [...mainTask];
+    copyTask.splice(i, 1);
+    setMainTask(copyTask);
+  }
 
- const deleteHandler=(i)=>{
-  let copyTask=[...mainTask]
-  copyTask.splice(i,1)
-  setmainTask(copyTask)
-
- }
- let renderTask = <h2>No Task Avalible </h2> 
-
-if(mainTask.length>0){
-  renderTask= mainTask.map((t,i)=>{
-    return<li key={i} className='flex item-center justify-between mb-8'> 
-    <div className='flex justify-between mb-5 w-2/3'>
-      <h5 className='text-2xl font-semibold'>{t.title}</h5>
-      <h6 className='text-lg font-medium'>{t.desc}</h6>
-      <button onClick={ ()=>{deleteHandler(i)}} className="bg-red-400 text-white border-2 border-black px-4 py-2 hover:bg-black hover:text-white transition-colors rounded">
-  Delete Task
-</button>
-    </div>
-    </li> 
- })
-}
   return (
-   
-   <div>
-      <h1 className='bg-black text-white p-5 font-bold text-center'>My Todo List </h1>
-      <form onSubmit={submitHandler}>
-      <input type='text' className='border-4 border-black mb-4 m-8 px-4 py-2' placeholder='Enter Your Task' 
-      value={title}
-      onChange={(e)=>{
-      settitle(e.target.value);
-      }}/>
-      <input type='text' className='border-4 border-black mb-4 m-8 px-4 py-2' placeholder='Enter Your Description'
-      value={desc}
-      onChange={(e)=>{
-      setdesc(e.target.value);
-      }}/>
-      <button className="bg-white text-black border-2 border-black px-4 py-2 hover:bg-black hover:text-white transition-colors rounded">
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8" style={{ backgroundImage: "url('/Todo.png')" }}>
+      <h1 className=' text-black p-5 font-bold text-center rounded mb-8 w-full max-w-xl '  style={{ backgroundImage: "url('/bg2.png')", backgroundSize: "cover", backgroundPosition: "center" }}   > My Todo List</h1>
+      <form 
+        onSubmit={submitHandler} 
+        className='flex flex-col items-center bg-cover bg-center bg-no-repeat p-6 rounded-lg shadow-lg w-full max-w-xl' 
+        style={{ backgroundImage: "url('/bg2.png')" }}
+      >
+<input 
+  type='text' 
+  className='border-2 border-gray-300 mb-4 px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white bg-opacity-75 placeholder-gray-900 font-bold' 
+  placeholder='Enter Your Task' required
+  value={title}
+  onChange={(e) => { setTitle(e.target.value); }}
+/>
+
+        <input 
+          type='text' 
+           className='border-2 border-gray-300 mb-4 px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white bg-opacity-75 placeholder-gray-900 font-bold'
+          placeholder='Enter Your Description' required
+          value={desc}
+          onChange={(e) => { setDesc(e.target.value); }}
+        />
+<button className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded hover:from-blue-500 hover:to-blue-1000 transition-colors w-full">
   Add Task
 </button>
-
-      </form>
-
-      <hr/>
-      <div className='p-8 bg-slate-300'>
-      <ul>{renderTask}</ul>
+      </form >
+      <hr className="my-8 w-full max-w-xl" />
+      <div className='p-8 bg-slate-300 w-full max-w-xl rounded-lg shadow-lg'  style={{ backgroundImage: "url('/bg2.png')" }}>
+        {mainTask.length === 0 ? (
+          <h2 className="text-center">No Task Available</h2>
+        ) : (
+          <div className="overflow-x-auto" >
+            <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-lg" >
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="w-1/12 px-4 py-2 text-left">#</th>
+                  <th className="w-5/12 px-4 py-2 text-left" >Title</th>
+                  <th className="w-5/12 px-4 py-2 text-left">Description</th>
+                  <th className="w-1/12 px-4 py-2 text-left">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mainTask.map((t, i) => (
+                  <tr key={i} className="border-t">
+                    <td className="px-4 py-2" >{i + 1}</td>
+                    <td className="px-4 py-2">{t.title}</td>
+                    <td className="px-4 py-2">{t.desc}</td>
+                    <td className="px-4 py-2">
+                      <button 
+                        onClick={() => deleteHandler(i)} 
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-      </div>
+    </div>
   );
 };
 
-export default page;
+export default Page;
